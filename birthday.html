@@ -4,9 +4,76 @@
 <script src="jquery-2.1.1.min.js"></script>
 <script type="application/javascript">
 <!--
+
+// Parses hash string into array to be usable as parameters.
+function getPageParameters(){
+	// If the string is empty (no # in URI) or if there's nothing significant
+	//  after the hash, cut out early.
+	if(window.location.hash === "") return false;
+	var hashVars = window.location.hash.substring(1).split('&');
+	if(hashVars.length < 1) return false;
+
+	var pageParams = {}
+	var i = 0;
+	for(;i < hashVars.length;i++){
+		var pair = hashVars[i].split('=');
+		// If there aren't two members, then this isn't a pair
+		if(pair.length !== 2) return false;
+		pageParams[pair[0]] = pair[1];
+	}
+	return pageParams
+}
+
+// Changes the active "page" (just hiding the other "page"'s div).
+//  HACK: There's probably a better way to do this.
+function setPage(page){
+	if(page === "entry"){
+		$("#entry-container").show();
+		$("#countdown-container").hide();
+	}else if(page === "countdown"){
+		$("#countdown-container").show();
+		$("#entry-container").hide();
+	}
+}
+
+// Entry point for JS. Separated from onLoad because we want this to run when
+//  when the hash changes as well as when the page loads.
+function initializeApplication(){
+	// params['n'] - Name
+	// params['y'] - Year
+	// params['m'] - Month (in 1-12 format, as opposed to Date's 0-11)
+	// params['d'] - Day
+	var params = getPageParameters();
+	var birthDate = new Date(params['y'], Number(params['m']) - 1, params['d']);
+
+	// Check that the name is not empty and the birth date is a valid date
+	if(params['n'].length < 1 || isNaN(birthDate.getTime())){
+		// Show the creation page again so the user can create some valid params
+		document.title = "Create a countdown";
+		setPage("entry");
+	}else{
+		// Display a countdown
+		// TODO: Add support for counting up (if the params are in the future)
+		document.title = "Countdown to " + params['n'] + "'s birthday";
+		setPage("countdown");
+		$("#name").text(params['n']);
+		$("#year").text(birthDate.getFullYear());
+		$("#month").text(birthDate.getMonth());
+		$("#day").text(birthDate.getDate());
+		// TODO: Set up countdown
+	}
+}
+
+// Re-initialize when the hash changes
+$(window).on("hashchange", initializeApplication);
+
 $(function(){
-	document.title = "EHLO";
-	$('#jswarning').remove();
+	// Remove Javascript warnings
+	$("#jswarning").remove();
+	document.title = "";
+
+	// Entry point
+	initializeApplication();
 });
 //-->
 </script>
@@ -15,7 +82,7 @@ body{
 	font-family:sans-serif;
 }
 
-/* Keep these hidden until we need to show one */
+/* Keep these hidden until we pick a page to show. */
 #entry-container,
 #countdown-container{
 	display:none;
@@ -25,4 +92,8 @@ body{
 <div id="entry-container">
 </div>
 <div id="countdown-container">
+	<p id="name"></p>
+	<p id="year"></p>
+	<p id="month"></p>
+	<p id="day"></p>
 </div>
