@@ -45,8 +45,10 @@ function initializeApplication(){
 	var params = getPageParameters();
 	var birthDate = new Date(params['y'], Number(params['m']) - 1, params['d']);
 
-	// Check that the name is not empty and the birth date is a valid date
-	if(params['n'].length < 1 || isNaN(birthDate.getTime())){
+	// Check that params are there, the name is not empty,
+	//  and the birth date is a valid date
+	if(!params || !("n" in params) || params['n'].length < 1 ||
+			isNaN(birthDate.getTime())){
 		// Show the creation page again so the user can create some valid params
 		document.title = "Create a countdown";
 		setPage("entry");
