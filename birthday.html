@@ -24,15 +24,16 @@ function getPageParameters(){
 }
 
 // Changes the active "page" (just hiding the other "page"'s div).
-//  HACK: There's probably a better way to do this.
 function setPage(page){
-	if(page === "entry"){
-		$("#entry-container").show();
-		$("#countdown-container").hide();
-	}else if(page === "countdown"){
-		$("#countdown-container").show();
-		$("#entry-container").hide();
+	if($("#" + page + "-container").length < 1){
+		throw new Error("Attempt to change page, but #" + page + "-container doesn't exist!");
 	}
+
+	// Hide all pages
+	$("[id$=-container]").each(function(i,e){ $(e).hide() });
+
+	// Show requested page
+	$("#" + page + "-container").show();
 }
 
 // Entry point for JS. Separated from onLoad because we want this to run when
