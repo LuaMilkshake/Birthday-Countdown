@@ -41,6 +41,32 @@ function setPage(page){
 	$("#" + page + "-container").show();
 }
 
+// Creates the p elements within the parentElement to create the wheels.
+//  minimumDigits will ensure that there are at least n wheels.
+function createWheels(parentElement, value, minimumDigits){
+	$(parentElement).empty();
+	var valueString = String(value);
+
+	// HACK: There's probably a better way to do this
+	var leadersNeeded = minimumDigits - valueString.length;
+	if(leadersNeeded < 0){
+		leadersNeeded = 0;
+	}
+	// Create any leading zeroes needed (or none)
+	for(var i=0;i < leadersNeeded;i++){
+		var digitParagraph = document.createElement("p");
+		$(digitParagraph).text("0");
+		$(parentElement).append(digitParagraph);
+	}
+
+	// Create actual numbers
+	for(var i=0;i < valueString.length;i++){
+		var digitParagraph = document.createElement("p");
+		$(digitParagraph).text(valueString.charAt(i));
+		$(parentElement).append(digitParagraph);
+	}
+}
+
 // Entry point for JS. Separated from onLoad because we want this to run when
 //  when the hash changes as well as when the page loads.
 function initializeApplication(){
@@ -64,9 +90,15 @@ function initializeApplication(){
 		document.title = "Countdown to " + params['n'] + "'s birthday";
 		setPage("countdown");
 		$("#name").text(params['n']);
-		$("#year").text(birthDate.getFullYear());
-		$("#month").text(birthDate.getMonth());
-		$("#day").text(birthDate.getDate());
+
+		// XXX: Fill in placeholders for now
+		createWheels($("#days > .wheels")[0], 23, 3);
+		createWheels($("#hours > .wheels")[0], 20, 2);
+		createWheels($("#minutes > .wheels")[0], 52, 2);
+		createWheels($("#seconds > .wheels")[0], 5, 2);
+
+		createWheels($("#age")[0], 21, 2);
+
 		// TODO: Set up countdown
 	}
 }
@@ -165,38 +197,28 @@ body{
 	<div id="countdown">
 		<div id="days">
 			<p>Days</p>
-			<div class="wheels">
-				<p>3</p><p>6</p><p>5</p>
-			</div>
+			<div class="wheels"></div>
 		</div>
 
 		<div id="hours">
 			<p>Hours</p>
-			<div class="wheels">
-				<p>5</p><p>9</p>
-			</div>
+			<div class="wheels"></div>
 		</div>
 
 		<div id="minutes">
 			<p>Minutes</p>
-			<div class="wheels">
-				<p>5</p><p>9</p>
-			</div>
+			<div class="wheels"></div>
 		</div>
 
 		<div id="seconds">
 			<p>Seconds</p>
-			<div class="wheels">
-				<p>5</p><p>9</p>
-			</div>
+			<div class="wheels"></div>
 		</div>
 	</div>
 
 	<div>
 		<p>until <span id="name"></span> turns</p>
 
-		<div id="age" class="wheels">
-			<p>2</p><p>1</p>
-		</div>
+		<div id="age" class="wheels"></div>
 	</div>
 </div>
