@@ -108,19 +108,20 @@ function initializeApplication(){
 	// params['d'] - Day
 	var params = getPageParameters();
 	var birthDate = new Date(params['y'], Number(params['m']) - 1, params['d']);
-
-	var daysWheels = $("#days > .wheels").first();
-	var hoursWheels = $("#hours > .wheels").first();
-	var minutesWheels = $("#minutes > .wheels").first();
-	var secondsWheels = $("#seconds > .wheels").first();
-	var ageWheels = $("#age").first();
+	var wheels = {
+		days: $("#days > .wheels").first(),
+		hours: $("#hours > .wheels").first(),
+		minutes: $("#minutes > .wheels").first(),
+		seconds: $("#seconds > .wheels").first(),
+		age: $("#age").first()
+	}
 
 	// Set up initial state of the wheels
-	resetWheels(daysWheels, 3);
-	resetWheels(hoursWheels, 2);
-	resetWheels(minutesWheels, 2);
-	resetWheels(secondsWheels, 2);
-	resetWheels(ageWheels, 2);
+	resetWheels(wheels.days, 3);
+	resetWheels(wheels.hours, 2);
+	resetWheels(wheels.minutes, 2);
+	resetWheels(wheels.seconds, 2);
+	resetWheels(wheels.age, 2);
 
 	// Check that params are there, the name is not empty,
 	//  and the birth date is a valid date
@@ -138,11 +139,11 @@ function initializeApplication(){
 
 		// TODO: Set up countdown
 		// XXX: Fill in placeholders for now
-		updateWheels(daysWheels, 23);
-		updateWheels(hoursWheels, 20);
-		updateWheels(minutesWheels, 52);
-		updateWheels(secondsWheels, 5);
-		updateWheels(ageWheels, 21);
+		updateWheels(wheels.days, 23);
+		updateWheels(wheels.hours, 20);
+		updateWheels(wheels.minutes, 52);
+		updateWheels(wheels.seconds, 5);
+		updateWheels(wheels.age, 21);
 	}
 }
 
