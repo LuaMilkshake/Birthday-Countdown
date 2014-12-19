@@ -87,6 +87,18 @@ function updateWheels(parentElement, value){
 	}
 }
 
+// Reset the contents of parentElement to numWheels empty ("0") wheels.
+function resetWheels(parentElement, numWheels){
+	// Clean any old stuff out
+	parentElement.empty();
+	// Add new wheels with zeroes for now
+	for(var i=0;i < numWheels;i++){
+		var newPara = $(document.createElement("p"));
+		newPara.text("0");
+		parentElement.append(newPara);
+	}
+}
+
 // Entry point for JS. Separated from onLoad because we want this to run when
 //  when the hash changes as well as when the page loads.
 function initializeApplication(){
@@ -96,6 +108,19 @@ function initializeApplication(){
 	// params['d'] - Day
 	var params = getPageParameters();
 	var birthDate = new Date(params['y'], Number(params['m']) - 1, params['d']);
+
+	var daysWheels = $("#days > .wheels").first();
+	var hoursWheels = $("#hours > .wheels").first();
+	var minutesWheels = $("#minutes > .wheels").first();
+	var secondsWheels = $("#seconds > .wheels").first();
+	var ageWheels = $("#age").first();
+
+	// Set up initial state of the wheels
+	resetWheels(daysWheels, 3);
+	resetWheels(hoursWheels, 2);
+	resetWheels(minutesWheels, 2);
+	resetWheels(secondsWheels, 2);
+	resetWheels(ageWheels, 2);
 
 	// Check that params are there, the name is not empty,
 	//  and the birth date is a valid date
@@ -113,11 +138,11 @@ function initializeApplication(){
 
 		// TODO: Set up countdown
 		// XXX: Fill in placeholders for now
-		updateWheels($("#days > .wheels")[0], 23);
-		updateWheels($("#hours > .wheels")[0], 20);
-		updateWheels($("#minutes > .wheels")[0], 52);
-		updateWheels($("#seconds > .wheels")[0], 5);
-		updateWheels($("#age")[0], 21);
+		updateWheels(daysWheels, 23);
+		updateWheels(hoursWheels, 20);
+		updateWheels(minutesWheels, 52);
+		updateWheels(secondsWheels, 5);
+		updateWheels(ageWheels, 21);
 	}
 }
 
@@ -216,28 +241,28 @@ body{
 	<div id="countdown">
 		<div id="days">
 			<p>Days</p>
-			<div class="wheels"><p>0</p><p>0</p><p>0</p></div>
+			<div class="wheels"></div>
 		</div>
 
 		<div id="hours">
 			<p>Hours</p>
-			<div class="wheels"><p>0</p><p>0</p></div>
+			<div class="wheels"></div>
 		</div>
 
 		<div id="minutes">
 			<p>Minutes</p>
-			<div class="wheels"><p>0</p><p>0</p></div>
+			<div class="wheels"></div>
 		</div>
 
 		<div id="seconds">
 			<p>Seconds</p>
-			<div class="wheels"><p>0</p><p>0</p></div>
+			<div class="wheels"></div>
 		</div>
 	</div>
 
 	<div>
 		<p>until <span id="name"></span> turns</p>
 
-		<div id="age" class="wheels"><p>0</p><p>0</p></div>
+		<div id="age" class="wheels"></div>
 	</div>
 </div>
