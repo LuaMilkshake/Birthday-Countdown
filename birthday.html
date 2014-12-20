@@ -36,7 +36,7 @@ function getPageParameters(){
 		var pair = hashVars[i].split('=');
 		// If there aren't two members, then this isn't a pair
 		if(pair.length !== 2) return false;
-		pageParams[pair[0]] = pair[1];
+		pageParams[decodeURI(pair[0])] = decodeURI(pair[1]);
 	}
 	return pageParams;
 }
