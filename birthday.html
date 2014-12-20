@@ -32,14 +32,13 @@ function getPageParameters(){
 	if(hashVars.length < 1) return false;
 
 	var pageParams = {}
-	var i = 0;
-	for(;i < hashVars.length;i++){
+	for(var i=0;i < hashVars.length;i++){
 		var pair = hashVars[i].split('=');
 		// If there aren't two members, then this isn't a pair
 		if(pair.length !== 2) return false;
 		pageParams[pair[0]] = pair[1];
 	}
-	return pageParams
+	return pageParams;
 }
 
 // Changes the active "page" (just hiding the other "page"'s div).
