@@ -123,15 +123,19 @@ function initializeApplication(){
 	resetWheels(wheels.age, 2);
 
 	// Check that params are there, the name is not empty,
-	//  and the birth date is a valid date
-	if(!params || !("n" in params) || params['n'].length < 1 ||
-			isNaN(birthDate.getTime())){
+	//  and the birth date is a valid date in the past.
+	if(
+		!params ||
+		!("n" in params) ||
+		params['n'].length < 1 ||
+		isNaN(birthDate.getTime()) ||
+		birthDate > Date.now()
+	){
 		// Show the creation page again so the user can create some valid params
 		document.title = "Create a countdown";
 		setPage("entry");
 	}else{
 		// Display a countdown
-		// TODO: Add support for counting up (if the params are in the future)
 		document.title = "Countdown to " + params['n'] + "'s birthday";
 		setPage("countdown");
 		$("#name").text(params['n']);
