@@ -98,6 +98,15 @@ function resetWheels(parentElement, numWheels){
 	}
 }
 
+function startCountdown(birthDate, wheels){
+	// Determine current age (+1) and set the age wheel. A year is simplified to
+	//  always be 365 days here, but that's not an issue for our use.
+	var ageMilliseconds = Date.now() - birthDate.getTime();
+	updateWheels(wheels.age,
+		Math.floor(ageMilliseconds / (365 * 24 * 60 * 60 * 1000)) + 1
+	);
+}
+
 // Entry point for JS. Separated from onLoad because we want this to run when
 //  when the hash changes as well as when the page loads.
 function initializeApplication(){
@@ -146,7 +155,8 @@ function initializeApplication(){
 		updateWheels(wheels.hours, 20);
 		updateWheels(wheels.minutes, 52);
 		updateWheels(wheels.seconds, 5);
-		updateWheels(wheels.age, 21);
+
+		startCountdown(birthDate, wheels);
 	}
 }
 
