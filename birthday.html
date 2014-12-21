@@ -23,6 +23,11 @@ This page doesn't use external JS/CSS because I want to host this using
 Dropbox's public function. I would normally minify and separate JS/CSS.
 -->
 <script type="application/javascript">
+// If we should console.log debug output
+var debug = false,
+// The setInterval used to update the countdown wheels
+countdownInterval;
+
 // Parses hash string into array to be usable as parameters.
 function getPageParameters(){
 	// If the string is empty (no # in URI) or if there's nothing significant
@@ -109,9 +114,6 @@ function updateCountdown(endDate, wheels){
 	updateWheels(wheels.seconds, secondsLeft % 60);
 }
 
-// The setInterval used to update the countdown wheels
-var countdownInterval;
-
 // Determine the birthday we're counting down to and start an interval loop
 //  to update the countdown values. This function is also responsible for
 //  starting a new countdown once the current one reaches 0.
@@ -124,6 +126,8 @@ function startCountdown(birthDate, wheels){
 	if(Date.now() > nextBirthday){
 		nextBirthday.setYear(new Date().getFullYear() + 1);
 	}
+
+	if(debug) console.log("Counting down to " + nextBirthday.toISOString());
 
 	// Determine age we're counting to.
 	updateWheels(wheels.age, nextBirthday.getFullYear() - birthDate.getFullYear());
@@ -167,6 +171,8 @@ function initializeApplication(){
 	resetWheels(wheels.minutes, 2);
 	resetWheels(wheels.seconds, 2);
 	resetWheels(wheels.age, 2);
+
+	debug = params && "debug" in params && params["debug"] === "true";
 
 	// Check that params are there, the name is not empty,
 	//  and the birth date is a valid date in the past.
