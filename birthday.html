@@ -151,12 +151,8 @@ function startCountdown(birthDate, wheels){
 // Entry point for JS. Separated from onLoad because we want this to run when
 //  when the hash changes as well as when the page loads.
 function initializeApplication(){
-	// params['n'] - Name
-	// params['y'] - Year
-	// params['m'] - Month (in 1-12 format, as opposed to Date's 0-11)
-	// params['d'] - Day
 	var params = getPageParameters();
-	var birthDate = new Date(params['y'], Number(params['m']) - 1, params['d']);
+	var birthDate = new Date(params['ts']);
 	var wheels = {
 		days: $("#days > .wheels").first(),
 		hours: $("#hours > .wheels").first(),
