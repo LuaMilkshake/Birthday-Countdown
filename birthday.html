@@ -122,15 +122,15 @@ function startCountdown(birthDate, wheels){
 	var nextBirthday = new Date(birthDate.getTime());
 	// First try using the current year, then advance to next year if needed
 	//  (if they've already had their birthday this year)
-	nextBirthday.setFullYear(new Date().getFullYear());
+	nextBirthday.setUTCFullYear(new Date().getUTCFullYear());
 	if(Date.now() > nextBirthday){
-		nextBirthday.setYear(new Date().getFullYear() + 1);
+		nextBirthday.setUTCFullYear(new Date().getUTCFullYear() + 1);
 	}
 
 	if(debug) console.log("Counting down to " + nextBirthday.toISOString());
 
 	// Determine age we're counting to.
-	updateWheels(wheels.age, nextBirthday.getFullYear() - birthDate.getFullYear());
+	updateWheels(wheels.age, nextBirthday.getUTCFullYear() - birthDate.getUTCFullYear());
 
 	// Set the counters for the first time
 	updateCountdown(nextBirthday, wheels);
