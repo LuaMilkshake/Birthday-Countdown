@@ -26,7 +26,10 @@ Dropbox's public function. I would normally minify and separate JS/CSS.
 // If we should console.log debug output
 var debug = false,
 // The setInterval used to update the countdown wheels
-countdownInterval;
+countdownInterval,
+// An object containing refernces to the different wheels on the page
+//  (this is set in initializeApplication)
+wheels;
 
 // Parses hash string into array to be usable as parameters.
 function getPageParameters(){
@@ -65,29 +68,29 @@ function setPage(page){
 function updateWheels(parentElement, value){
 	var valueString = String(value);
 	parentElement = $(parentElement);
-	var wheels = parentElement.children();
+	var targetWheels = parentElement.children();
 
 	// Add additional wheels if there aren't enough currently
-	if(valueString.length > wheels.length){
-		for(var i=0;i < (valueString.length - wheels.length);i++){
+	if(valueString.length > targetWheels.length){
+		for(var i=0;i < (valueString.length - targetWheels.length);i++){
 			var newPara = $(document.createElement("p"));
 			newPara.text("0");
 			parentElement.prepend(newPara);
 		}
-		wheels = parentElement.children();
+		targetWheels = parentElement.children();
 	}
 
 	// Use an offset to start setting numbers after any leading zeroes
-	var childOffset = wheels.length - valueString.length
+	var childOffset = targetWheels.length - valueString.length
 
 	// Ensure the numbers before offset are zero
 	for(var i=0;i < childOffset;i++){
-		$(wheels[i]).text("0");
+		$(targetWheels[i]).text("0");
 	}
 
 	// Fill in numbers
 	for(var i=0;i < valueString.length;i++){
-		$(wheels[childOffset + i]).text(valueString.charAt(i));
+		$(targetWheels[childOffset + i]).text(valueString.charAt(i));
 	}
 }
 
@@ -105,7 +108,7 @@ function resetWheels(parentElement, numWheels){
 
 // Called on an interval to update the displayed numbers to the correct values
 //  at the current time.
-function updateCountdown(endDate, wheels){
+function updateCountdown(endDate){
 	var secondsLeft = Math.floor((endDate.getTime() - Date.now()) / 1000);
 
 	updateWheels(wheels.days, Math.floor(secondsLeft / 86400));
@@ -117,7 +120,7 @@ function updateCountdown(endDate, wheels){
 // Determine the birthday we're counting down to and start an interval loop
 //  to update the countdown values. This function is also responsible for
 //  starting a new countdown once the current one reaches 0.
-function startCountdown(birthDate, wheels){
+function startCountdown(birthDate){
 	// Determine when the subject's next birthday is
 	var nextBirthday = new Date(birthDate.getTime());
 	// First try using the current year, then advance to next year if needed
@@ -133,7 +136,7 @@ function startCountdown(birthDate, wheels){
 	updateWheels(wheels.age, nextBirthday.getUTCFullYear() - birthDate.getUTCFullYear());
 
 	// Set the counters for the first time
-	updateCountdown(nextBirthday, wheels);
+	updateCountdown(nextBirthday);
 
 	// If an interval is currently running, cancel it
 	if(countdownInterval) clearInterval(countdownInterval);
@@ -141,9 +144,9 @@ function startCountdown(birthDate, wheels){
 	countdownInterval = setInterval(function(){
 		// If this countdown has just ended, start a new countdown
 		if(Date.now() > nextBirthday){
-			startCountdown(birthDate, wheels);
+			startCountdown(birthDate);
 		}else{
-			updateCountdown(nextBirthday, wheels);
+			updateCountdown(nextBirthday);
 		}
 	}, 1000);
 }
@@ -153,7 +156,8 @@ function startCountdown(birthDate, wheels){
 function initializeApplication(){
 	var params = getPageParameters();
 	var birthDate = new Date(params['ts']);
-	var wheels = {
+
+	wheels = {
 		days: $("#days > .wheels").first(),
 		hours: $("#hours > .wheels").first(),
 		minutes: $("#minutes > .wheels").first(),
@@ -188,7 +192,7 @@ function initializeApplication(){
 		setPage("countdown");
 		$("#name").text(params['n']);
 
-		startCountdown(birthDate, wheels);
+		startCountdown(birthDate);
 	}
 }
 
