@@ -63,6 +63,24 @@ function setPage(page){
 	$("#" + page + "-container").show();
 }
 
+// Collects values from the creation form, verifies them, then changes the
+//  location hash to create the countdown
+function createCountdown(){
+	var form = $(this.parentElement),
+	endDate = new Date(
+		form.find("[name='year']").val(),
+		form.find("[name='month']").val(),
+		form.find("[name='day']").val()
+	);
+
+	// TODO: Add some error output to tell the user that their input is wrong
+	if(isNaN(endDate.getTime())) return false;
+
+	window.location.hash = "#n=" +
+		encodeURI(form.find("[name='name']").val()) +
+		"&ts=" + endDate.toISOString();
+}
+
 // Update the wheels to a new value. Also adds additonal wheel(s) in the rare
 //  case that there aren't enough already.
 function updateWheels(parentElement, value){
@@ -165,6 +183,9 @@ function initializeApplication(){
 		age: $("#age").first()
 	}
 
+	// If an interval is currently running, cancel it
+	if(countdownInterval) clearInterval(countdownInterval);
+
 	// Set up initial state of the wheels
 	resetWheels(wheels.days, 3);
 	resetWheels(wheels.hours, 2);
@@ -203,6 +224,9 @@ $(function(){
 	// Remove Javascript warnings
 	$("#jswarning").remove();
 	document.title = "";
+
+	// Attach createCountdown to the submit button on the creation form.
+	$("#entry-form > input[type=submit]").click(createCountdown);
 
 	// Entry point
 	initializeApplication();
