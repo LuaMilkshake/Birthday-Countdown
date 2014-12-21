@@ -98,11 +98,13 @@ function resetWheels(parentElement, numWheels){
 	}
 }
 
+// Called on an interval to update the displayed numbers to the correct values
+//  at the current time.
 function updateCountdown(endDate, wheels){
 	var secondsLeft = Math.floor((endDate.getTime() - Date.now()) / 1000);
 
 	updateWheels(wheels.days, Math.floor(secondsLeft / 86400));
-	updateWheels(wheels.hours, Math.floor((secondsLeft %  86400 / 3600)));
+	updateWheels(wheels.hours, Math.floor((secondsLeft % 86400) / 3600));
 	updateWheels(wheels.minutes, Math.floor((secondsLeft % 3600) / 60));
 	updateWheels(wheels.seconds, secondsLeft % 60);
 }
@@ -110,6 +112,9 @@ function updateCountdown(endDate, wheels){
 // The setInterval used to update the countdown wheels
 var countdownInterval;
 
+// Determine the birthday we're counting down to and start an interval loop
+//  to update the countdown values. This function is also responsible for
+//  starting a new countdown once the current one reaches 0.
 function startCountdown(birthDate, wheels){
 	// Determine when the subject's next birthday is
 	var nextBirthday = new Date(birthDate.getTime());
