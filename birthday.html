@@ -240,11 +240,54 @@ body{
 #entry-container,
 #countdown-container{
 	display:none;
-}
-
-#countdown-container{
 	text-align:center;
 }
+
+	#entry-container > #entry-form{
+		width:400px;
+		margin:0 auto;
+		overflow:auto;
+	}
+
+		#entry-container > #entry-form > input,
+		#entry-container > #entry-form > select{
+			border:0;
+			border-radius:6px;
+			background:#292929;
+			color:#DDD;
+			text-align:center;
+			font-size:1.3em;
+			font-family:'Open Sans',sans-serif;
+			padding:10px;
+			margin:5px;
+			float:left;
+		}
+
+		#entry-container > #entry-form > input[name=name]{
+			width:370px;
+			font-size:1.5em;
+		}
+
+		#entry-container > #entry-form > input[name=year]{
+			width:100px;
+		}
+
+		#entry-container > #entry-form > select{
+			width:190px;
+			-webkit-appearance:none;
+			-moz-appearance:none;
+			line-height:1.2; /* HACK: This is a poor solution */
+		}
+
+		#entry-container > #entry-form > input[name=day]{
+			width:40px;
+		}
+
+		#entry-container > #entry-form > input[type=submit]{
+			width:390px;
+			background:#222;
+			cursor:pointer;
+		}
 
 	#countdown-container > #countdown{
 		overflow:auto;
@@ -285,6 +328,29 @@ body{
 <p id="jswarning">This page requires Javascript.</p>
 
 <div id="entry-container">
+	<h1>Create a countdown:</h1>
+	<form id="entry-form" onsubmit="return false">
+		<input type="text" name="name" placeholder="Person's Name">
+		<input type="text" name="year" placeholder="Birth Year" maxlength="4">
+		<select name="month">
+			<option value="MM">Month</option>
+			<option value="00">01 - January</option>
+			<option value="01">02 - February</option>
+			<option value="02">03 - March</option>
+			<option value="03">04 - April</option>
+			<option value="04">05 - May</option>
+			<option value="05">06 - June</option>
+			<option value="06">07 - July</option>
+			<option value="07">08 - August</option>
+			<option value="08">09 - September</option>
+			<option value="09">10 - October</option>
+			<option value="10">11 - November</option>
+			<option value="11">12 - December</option>
+		</select>
+		<input type="text" name="day" placeholder="Day" maxlength="2">
+		<br>
+		<input type="submit" value="Create">
+	</form>
 </div>
 
 <div id="countdown-container">
