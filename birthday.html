@@ -228,6 +228,11 @@ $(function(){
 	// Attach createCountdown to the submit button on the creation form.
 	$("#entry-form > input[type=submit]").click(createCountdown);
 
+	// Make the return-to-creation button work
+	$("#countdown-container > p > #return-to-creation").click(function(){
+		window.location.hash = "";
+	});
+
 	// Entry point
 	initializeApplication();
 });
@@ -347,6 +352,19 @@ body{
 		vertical-align:middle;
 		font-size:2.5em;
 	}
+
+	#countdown-container > p > a:link,
+	#countdown-contianer > p > a:visited,
+	#countdown-container > p > a:active,
+	#countdown-container > p > a:hover{
+		color:#DDD;
+		font-size:0.8em;
+		text-decoration:none;
+	}
+
+	#countdown-container > p > a:hover{
+		text-decoration:underline;
+	}
 </style>
 
 <p id="jswarning">This page requires Javascript.</p>
@@ -405,4 +423,6 @@ body{
 
 		<div id="age" class="wheels"></div>
 	</div>
+
+	<p><a href="javascript:void(0)" id="return-to-creation">Return to creation page</a></p>
 </div>
