@@ -244,6 +244,18 @@ body{
 	color:#DDD;
 }
 
+a:link,
+a:visited,
+a:active,
+a:hover{
+	color:#DDD;
+	text-decoration:none;
+}
+
+a:hover{
+	text-decoration:underline;
+}
+
 .wheels{
 	display:inline-block;
 	background:#181818;
@@ -358,17 +370,21 @@ body{
 		font-size:2.5em;
 	}
 
-	#countdown-container > p > a:link,
-	#countdown-contianer > p > a:visited,
-	#countdown-container > p > a:active,
-	#countdown-container > p > a:hover{
-		color:#DDD;
+	#countdown-container > p > #return-to-creation{
 		font-size:0.8em;
-		text-decoration:none;
 	}
 
-	#countdown-container > p > a:hover{
-		text-decoration:underline;
+#breadcrumbs{
+	text-align:center;
+	font-size:0.8em;
+	color:#555;
+}
+
+	#breadcrumbs > a:link,
+	#breadcrumbs > a:active,
+	#breadcrumbs > a:hover,
+	#breadcrumbs > a:visited{
+		color:inherit;
 	}
 </style>
 
@@ -432,3 +448,9 @@ body{
 
 	<p><a href="javascript:void(0)" id="return-to-creation">Return to creation page</a></p>
 </div>
+
+<p id="breadcrumbs">
+	<a href="https://github.com/LuaMilkshake/Birthday-Countdown/">GitHub</a>
+	|
+	<a href="https://www.apache.org/licenses/LICENSE-2.0.txt">Apache License 2.0</a>
+</p>
